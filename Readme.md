@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Александр Кливец](https://up.htmlacademy.ru/javascript/27/user/2081563).
-* Наставник: `Неизвестно`.
+* Наставник: [Николай Котиков](https://htmlacademy.ru/profile/niklcat).
 
 ---
 
