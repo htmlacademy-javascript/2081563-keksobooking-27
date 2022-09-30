@@ -11,7 +11,7 @@ function getRandomNumber(min, max, round = 1) {
 
   result = (Math.random() * (max - min + 1) + min).toFixed(round);
 
-  return result;
+  return +result;
 }
 
 getRandomNumber();
