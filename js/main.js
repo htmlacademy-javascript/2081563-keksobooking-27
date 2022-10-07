@@ -6,35 +6,29 @@ function getRandomNumber(min, max, round = 1) {
   }
 
   else if (min > max) {
-    result = (Math.random() * (min - max + 1) + min).toFixed(round);
+    result = (Math.random() * (min - max) + min).toFixed(round);
   }
 
-  result = (Math.random() * (max - min + 1) + min).toFixed(round);
+  result = (Math.random() * (max - min) + min).toFixed(round);
 
   return +result;
 }
-
-getRandomNumber();
 
 const TYPE = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const TIME = ['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator'];
 const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
+const COPY_OBJECT_COUNT = 10;
 
-const getAvatar = function() {
-  return String(getRandomNumber(1,10,0)).padStart(2, '0');
-};
+const GET_AVATAR = (index) => String(index + 1).padStart(2, '0');
+const SHUFFLE_ARRAY = (array) => array.sort( () => .5 - Math.random());
 
-const shuffleArray = function (array) {
-  return array.sort( () => .5 - Math.random());
-};
-
-const createObject = function() {
+const CREATE_OBJECT = (el, index) => {
   const LAT = getRandomNumber(35.65000, 35.70000, 5);
   const LNG = getRandomNumber(139.70000, 139.80000, 5);
   return {
     author: {
-      avatar: `img/avatars/user${getAvatar()}.png`
+      avatar: `img/avatars/user${GET_AVATAR(index)}.png`
     },
     offer: {
       title: 'Обратите внимание!',
@@ -45,9 +39,9 @@ const createObject = function() {
       guests: getRandomNumber(1, 3, 0),
       checkin: TIME[getRandomNumber(0,2,0)],
       checkout: TIME[getRandomNumber(0,2,0)],
-      features: shuffleArray(FEATURES).slice(0, getRandomNumber(0, FEATURES.length - 1, 0)),
+      features: SHUFFLE_ARRAY(FEATURES).slice(0, getRandomNumber(0, FEATURES.length - 1, 0)),
       description: 'Милая уютная квартира на окраине города',
-      photos: shuffleArray(PHOTOS).slice(0, getRandomNumber(0, PHOTOS.length - 1, 0)),
+      photos: SHUFFLE_ARRAY(PHOTOS).slice(0, getRandomNumber(0, PHOTOS.length - 1, 0)),
     },
     location: {
       lat: LAT,
@@ -56,10 +50,7 @@ const createObject = function() {
   };
 };
 
-createObject();
+const CREATE_ARRAY = Array.from({length: COPY_OBJECT_COUNT}, CREATE_OBJECT);
 
-const similarObject = Array.from({length: 10}, createObject);
-
-let uniqueArray = similarObject.filter(function(item, pos) {
-  return similarObject.indexOf(item) == pos;
-})
+/* eslint-disable */
+CREATE_ARRAY;
