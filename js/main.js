@@ -1,2 +1,3 @@
 /* eslint-disable */
-import {CREATE_ARRAY} from './create-array.js';
+import {createMocks} from './create-mocks.js';
+import './generation.js';
