@@ -1,7 +1,7 @@
 import { createMocks } from './create-mocks.js';
 
-const POPUP = document.querySelector('#card').content.querySelector('.popup');
-const GENERATION_MOCKS = createMocks();
+const popupElement = document.querySelector('#card').content.querySelector('.popup');
+const offers = createMocks();
 const TYPE_ROOMS = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -9,96 +9,89 @@ const TYPE_ROOMS = {
   palace: 'Дворец',
   hotel: 'Отель'
 };
-const MAP_CANVAS = document.querySelector('.map__canvas');
-const NEW_FRAGMENT = document.createDocumentFragment();
+const mapCanvas = document.querySelector('.map__canvas');
+const newFragment = document.createDocumentFragment();
 
-GENERATION_MOCKS.forEach((mock) => {
-  const COPY_POPUP = POPUP.cloneNode(true);
-  if (mock.offer.title) {
-    COPY_POPUP.querySelector('.popup__title').textContent = mock.offer.title;
+offers.forEach(({author, offer}) => {
+  const copyPopup = popupElement.cloneNode(true);
+  const removeElement = (selector) => {
+    copyPopup.querySelector(selector).remove();
+  };
+  if (offer.title) {
+    copyPopup.querySelector('.popup__title').textContent = offer.title;
   }
   else {
-    COPY_POPUP.querySelector('.popup__title').remove();
+    removeElement('.popup__title');
   }
-  if (mock.offer.address) {
-    COPY_POPUP.querySelector('.popup__text--address').textContent = mock.offer.address;
-  }
-  else {
-    COPY_POPUP.querySelector('.popup__text--address').remove();
-  }
-  if (mock.offer.price) {
-    COPY_POPUP.querySelector('.popup__text--price').textContent = `${mock.offer.price} ₽/ночь`;
+  if (offer.address) {
+    copyPopup.querySelector('.popup__text--address').textContent = offer.address;
   }
   else {
-    COPY_POPUP.querySelector('.popup__text--price').remove();
+    removeElement('.popup__text--address');
   }
-  if (mock.offer.type) {
-    COPY_POPUP.querySelector('.popup__type').textContent = TYPE_ROOMS[mock.offer.type];
-  }
-  else {
-    COPY_POPUP.querySelector('.popup__type').remove();
-  }
-  if (mock.offer.rooms && mock.offer.guests) {
-    COPY_POPUP.querySelector('.popup__text--capacity').textContent = `${mock.offer.rooms} комнаты для ${mock.offer.guests} гостей`;
+  if (offer.price) {
+    copyPopup.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
   }
   else {
-    COPY_POPUP.querySelector('.popup__text--capacity').remove();
+    removeElement('.popup__text--price');
   }
-  if (mock.offer.checkin && mock.offer.checkout) {
-    COPY_POPUP.querySelector('.popup__text--time').textContent = `Заезд после ${mock.offer.checkin}, выезд до ${mock.offer.checkout}`;
+  if (offer.type) {
+    copyPopup.querySelector('.popup__type').textContent = TYPE_ROOMS[offer.type];
   }
   else {
-    COPY_POPUP.querySelector('.popup__text--time').remove();
+    removeElement('.popup__type');
   }
-  const FEATURES_LISTS = COPY_POPUP.querySelectorAll('.popup__feature');
-  const MODIFIERS = mock.offer.features.map((el) => `popup__feature--${el}`);
-  if (mock.offer.features) {
-    FEATURES_LISTS.forEach((featureList) => {
+  if (offer.rooms && offer.guests) {
+    copyPopup.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
+  }
+  else {
+    removeElement('.popup__text--capacity');
+  }
+  if (offer.checkin && offer.checkout) {
+    copyPopup.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+  }
+  else {
+    removeElement('.popup__text--time');
+  }
+  const featuresLists = copyPopup.querySelectorAll('.popup__feature');
+  const modifiers = offer.features.map((el) => `popup__feature--${el}`);
+  if (offer.features) {
+    featuresLists.forEach((featureList) => {
       const MODIFIER = featureList.classList[1];
-      if (!MODIFIERS.includes(MODIFIER)) {
+      if (!modifiers.includes(MODIFIER)) {
         featureList.remove();
       }
     });
   }
   else {
-    FEATURES_LISTS.remove();
+    featuresLists.remove();
   }
-  // FEATURES_LISTS.forEach((featuresList) => {
-  //   const itHave = mock.offer.features.some(
-  //     (el) => {
-  //       featuresList.classList.contains(`popup__feature--${el}`);
-  //     });
-  //   console.log(itHave);
-  //   if (!itHave) {
-  //     featuresList.remove();
-  //   }
-  // });
-  if (mock.offer.description) {
-    COPY_POPUP.querySelector('.popup__description').textContent = mock.offer.description;
+  if (offer.description) {
+    copyPopup.querySelector('.popup__description').textContent = offer.description;
   }
   else {
-    COPY_POPUP.querySelector('.popup__description').remove();
+    removeElement('.popup__description');
   }
-  if (mock.author.avatar) {
-    COPY_POPUP.querySelector('.popup__avatar').src = mock.author.avatar;
+  if (author.avatar) {
+    copyPopup.querySelector('.popup__avatar').src = author.avatar;
   }
   else {
-    COPY_POPUP.querySelector('.popup__avatar').remove();
+    removeElement('.popup__avatar');
   }
-  const PHOTO_CONTAINER = COPY_POPUP.querySelector('.popup__photos');
-  const PHOTO_ITEM = PHOTO_CONTAINER.querySelector('.popup__photo');
-  PHOTO_ITEM.remove();
-  if (mock.offer.photos) {
-    mock.offer.photos.forEach((el) => {
-      const PHOTO_ITEM_ELEMENT = PHOTO_ITEM.cloneNode(true);
-      PHOTO_ITEM_ELEMENT.src = el;
-      PHOTO_CONTAINER.append(PHOTO_ITEM_ELEMENT);
+  const photoContainer = copyPopup.querySelector('.popup__photos');
+  const photoItem = photoContainer.querySelector('.popup__photo');
+  photoItem.remove();
+  if (offer.photos) {
+    offer.photos.forEach((el) => {
+      const photoItemElement = photoItem.cloneNode(true);
+      photoItemElement.src = el;
+      photoContainer.append(photoItemElement);
     });
   }
   else {
-    PHOTO_CONTAINER.remove();
+    photoContainer.remove();
   }
-  NEW_FRAGMENT.append(COPY_POPUP);
+  newFragment.append(copyPopup);
 });
 
-MAP_CANVAS.append(NEW_FRAGMENT.children[0]);
+mapCanvas.append(newFragment.children[0]);
