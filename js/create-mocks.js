@@ -25,9 +25,9 @@ const createObject = (el, index) => {
       guests: getRandomNumber(1, 3, 0),
       checkin: TIME[getRandomNumber(0,2,0)],
       checkout: TIME[getRandomNumber(0,2,0)],
-      features: shuffleArray(FEATURES).slice(0, getRandomNumber(0, FEATURES.length - 1, 0)),
+      features: shuffleArray(FEATURES).slice(0, getRandomNumber(1, FEATURES.length, 0)),
       description: 'Милая уютная квартира на окраине города',
-      photos: shuffleArray(PHOTOS).slice(0, getRandomNumber(0, PHOTOS.length - 1, 0)),
+      photos: shuffleArray(PHOTOS).slice(0, getRandomNumber(1, PHOTOS.length, 0)),
     },
     location: {
       lat: LAT,
@@ -36,6 +36,6 @@ const createObject = (el, index) => {
   };
 };
 
-const CREATE_ARRAY = Array.from({length: COPY_OBJECT_COUNT}, createObject);
+const createMocks = () => Array.from({length: COPY_OBJECT_COUNT}, createObject);
 
-export{CREATE_ARRAY};
+export{createMocks};
