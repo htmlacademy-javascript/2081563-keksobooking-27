@@ -57,8 +57,8 @@ offers.forEach(({author, offer}) => {
   const modifiers = offer.features.map((el) => `popup__feature--${el}`);
   if (offer.features) {
     featuresLists.forEach((featureList) => {
-      const MODIFIER = featureList.classList[1];
-      if (!modifiers.includes(MODIFIER)) {
+      const modifier = featureList.classList[1];
+      if (!modifiers.includes(modifier)) {
         featureList.remove();
       }
     });
