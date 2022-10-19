@@ -9,7 +9,7 @@ const COPY_OBJECT_COUNT = 10;
 const getAvatar = (index) => String(index + 1).padStart(2, '0');
 const shuffleArray = (array) => array.sort( () => .5 - Math.random());
 
-const createObject = (el, index) => {
+const createObject = (_, index) => {
   const LAT = getRandomNumber(35.65000, 35.70000, 5);
   const LNG = getRandomNumber(139.70000, 139.80000, 5);
   return {

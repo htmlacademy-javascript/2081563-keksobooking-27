@@ -9,7 +9,7 @@ const TYPE_ROOMS = {
   palace: 'Дворец',
   hotel: 'Отель'
 };
-const mapCanvas = document.querySelector('.map__canvas');
+const mapCanvasElement = document.querySelector('.map__canvas');
 const newFragment = document.createDocumentFragment();
 
 offers.forEach(({author, offer}) => {
@@ -53,10 +53,10 @@ offers.forEach(({author, offer}) => {
   else {
     removeElement('.popup__text--time');
   }
-  const featuresLists = copyPopup.querySelectorAll('.popup__feature');
+  const featuresListElements = copyPopup.querySelectorAll('.popup__feature');
   const modifiers = offer.features.map((el) => `popup__feature--${el}`);
   if (offer.features) {
-    featuresLists.forEach((featureList) => {
+    featuresListElements.forEach((featureList) => {
       const modifier = featureList.classList[1];
       if (!modifiers.includes(modifier)) {
         featureList.remove();
@@ -64,7 +64,7 @@ offers.forEach(({author, offer}) => {
     });
   }
   else {
-    featuresLists.remove();
+    featuresListElements.remove();
   }
   if (offer.description) {
     copyPopup.querySelector('.popup__description').textContent = offer.description;
@@ -78,20 +78,20 @@ offers.forEach(({author, offer}) => {
   else {
     removeElement('.popup__avatar');
   }
-  const photoContainer = copyPopup.querySelector('.popup__photos');
-  const photoItem = photoContainer.querySelector('.popup__photo');
-  photoItem.remove();
+  const photoContainerElement = copyPopup.querySelector('.popup__photos');
+  const photoElement = photoContainerElement.querySelector('.popup__photo');
+  photoElement.remove();
   if (offer.photos) {
     offer.photos.forEach((el) => {
-      const photoItemElement = photoItem.cloneNode(true);
+      const photoItemElement = photoElement.cloneNode(true);
       photoItemElement.src = el;
-      photoContainer.append(photoItemElement);
+      photoContainerElement.append(photoItemElement);
     });
   }
   else {
-    photoContainer.remove();
+    photoContainerElement.remove();
   }
   newFragment.append(copyPopup);
 });
 
-mapCanvas.append(newFragment.children[0]);
+mapCanvasElement.append(newFragment.children[0]);
