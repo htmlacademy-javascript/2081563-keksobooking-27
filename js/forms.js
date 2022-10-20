@@ -17,8 +17,8 @@ const setInactiveState = () => {
 const setActiveState = () => {
   adFormElement.classList.remove('ad-form--disabled');
   mapFilterElemnt.classList.remove('map__filters--disabled');
-  for (const FormElement of adFormElements) {
-    FormElement.disabled = false;
+  for (const formElement of adFormElements) {
+    formElement.disabled = false;
   }
   for (const mapFilter of mapFilterElements) {
     mapFilter.disabled = false;
