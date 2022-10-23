@@ -64,8 +64,7 @@ function validateOnChange(form, form2) {
 }
 validateOnChange(roomNumberElement, capacityElement);
 
-adFormElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
+adFormElement.addEventListener('submit', () => {
   pristine.validate();
 });
 export { setActiveState, setInactiveState };
