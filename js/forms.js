@@ -41,7 +41,7 @@ const pristine = new Pristine(adFormElement, {
 function validateRoomNuber() {
   return ROOM_OPTIONS[roomNumberElement.value].includes(capacityElement.value);
 }
-function errorMessage() {
+function getErrorMessage() {
   if (capacityElement.value === '0') {
     return `Только 100 комнат
     ${capacityElement.options[capacityElement.selectedIndex].text}`;
@@ -52,8 +52,8 @@ function errorMessage() {
   `;
 }
 
-pristine.addValidator(roomNumberElement, validateRoomNuber, errorMessage);
-pristine.addValidator(capacityElement, validateRoomNuber, errorMessage);
+pristine.addValidator(roomNumberElement, validateRoomNuber, getErrorMessage);
+pristine.addValidator(capacityElement, validateRoomNuber, getErrorMessage);
 function validateOnChange(form, form2) {
   form.addEventListener('change', () => {
     pristine.validate(form2);
