@@ -4,11 +4,22 @@ const mapFilterElemnt = document.querySelector('.map__filters');
 const mapFilterElements = mapFilterElemnt.querySelectorAll('.map__filter');
 const roomNumberElement = adFormElement.querySelector('[name = "rooms"]');
 const capacityElement = adFormElement.querySelector('[name = "capacity"]');
+const typeElement = adFormElement.querySelector('[name = "type"]');
+const priceElement = adFormElement.querySelector('[name = "price"]');
+const timeOutElement = adFormElement.querySelector('[name = "timeout"]');
+const timeInElement = adFormElement.querySelector('[name = "timein"]');
 const ROOM_OPTIONS = {
   '1': ['1'],
   '2': ['2', '1'],
   '3': ['3', '2', '1'],
   '100': ['0']
+};
+const MAX_PRICE = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000
 };
 
 const setInactiveState = () => {
@@ -66,5 +77,23 @@ validateOnChange(roomNumberElement, capacityElement);
 
 adFormElement.addEventListener('submit', () => {
   pristine.validate();
+});
+function validatePrice(value) {
+  return value >= MAX_PRICE[typeElement.value];
+}
+function getPriceErrorMessage() {
+  return `Минимальная цена ${MAX_PRICE[typeElement.value]}руб.`;
+}
+pristine.addValidator(priceElement, validatePrice, getPriceErrorMessage);
+typeElement.addEventListener('change', () => {
+  priceElement.placeholder = MAX_PRICE[typeElement.value];
+  pristine.validate(priceElement);
+});
+
+timeInElement.addEventListener('change', () => {
+  timeOutElement.value = timeInElement.value;
+});
+timeOutElement.addEventListener('change', () => {
+  timeInElement.value = timeOutElement.value;
 });
 export { setActiveState, setInactiveState };
