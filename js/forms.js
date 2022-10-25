@@ -4,11 +4,22 @@ const mapFilterElemnt = document.querySelector('.map__filters');
 const mapFilterElements = mapFilterElemnt.querySelectorAll('.map__filter');
 const roomNumberElement = adFormElement.querySelector('[name = "rooms"]');
 const capacityElement = adFormElement.querySelector('[name = "capacity"]');
+const priceElement = adFormElement.querySelector('[name = "price"]');
+const typeElement = adFormElement.querySelector('[name = "type"]');
+const timeOutElement = adFormElement.querySelector('[name = "timeout"]');
+const timeInElement = adFormElement.querySelector('[name = "timein"]');
 const ROOM_OPTIONS = {
   '1': ['1'],
   '2': ['2', '1'],
   '3': ['3', '2', '1'],
   '100': ['0']
+};
+const MAX_PRICE = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000
 };
 
 const setInactiveState = () => {
@@ -41,7 +52,7 @@ const pristine = new Pristine(adFormElement, {
 function validateRoomNuber() {
   return ROOM_OPTIONS[roomNumberElement.value].includes(capacityElement.value);
 }
-function getErrorMessage() {
+function getRoomErrorMessage() {
   if (capacityElement.value === '0') {
     return `Только 100 комнат
     ${capacityElement.options[capacityElement.selectedIndex].text}`;
@@ -52,8 +63,8 @@ function getErrorMessage() {
   `;
 }
 
-pristine.addValidator(roomNumberElement, validateRoomNuber, getErrorMessage);
-pristine.addValidator(capacityElement, validateRoomNuber, getErrorMessage);
+pristine.addValidator(roomNumberElement, validateRoomNuber, getRoomErrorMessage);
+pristine.addValidator(capacityElement, validateRoomNuber, getRoomErrorMessage);
 function validateOnChange(form, form2) {
   form.addEventListener('change', () => {
     pristine.validate(form2);
@@ -64,7 +75,26 @@ function validateOnChange(form, form2) {
 }
 validateOnChange(roomNumberElement, capacityElement);
 
-adFormElement.addEventListener('submit', () => {
+function validatePrice(value) {
+  return value >= MAX_PRICE[typeElement.value];
+}
+function getPriceErrorMessage() {
+  return `Минимальная цена ${MAX_PRICE[typeElement.value]}руб.`;
+}
+pristine.addValidator(priceElement, validatePrice, getPriceErrorMessage);
+typeElement.addEventListener('change', () => {
+  priceElement.placeholder = MAX_PRICE[typeElement.value];
+  pristine.validate(priceElement);
+});
+timeInElement.addEventListener('change', () => {
+  timeOutElement.value = timeInElement.value;
+});
+timeOutElement.addEventListener('change', () => {
+  timeInElement.value = timeOutElement.value;
+});
+
+adFormElement.addEventListener('submit', (evt) => {
+  evt.preventDefault();
   pristine.validate();
 });
 export { setActiveState, setInactiveState };
