@@ -1,7 +1,7 @@
 const adFormElement = document.querySelector('.ad-form');
 const adFormElements = adFormElement.querySelectorAll('.ad-form__element');
-const mapFilterElemnt = document.querySelector('.map__filters');
-const mapFilterElements = mapFilterElemnt.querySelectorAll('.map__filter');
+const mapFilterElement = document.querySelector('.map__filters');
+const mapFilterElements = mapFilterElement.querySelectorAll('.map__filter');
 const roomNumberElement = adFormElement.querySelector('[name = "rooms"]');
 const capacityElement = adFormElement.querySelector('[name = "capacity"]');
 const typeElement = adFormElement.querySelector('[name = "type"]');
@@ -14,7 +14,7 @@ const ROOM_OPTIONS = {
   '3': ['3', '2', '1'],
   '100': ['0']
 };
-const MAX_PRICE = {
+const MIN_PRICE = {
   'bungalow': 0,
   'flat': 1000,
   'hotel': 3000,
@@ -24,7 +24,7 @@ const MAX_PRICE = {
 
 const setInactiveState = () => {
   adFormElement.classList.add('ad-form--disabled');
-  mapFilterElemnt.classList.add('map__filters--disabled');
+  mapFilterElement.classList.add('map__filters--disabled');
   for (const formElement of adFormElements) {
     formElement.disabled = true;
   }
@@ -35,7 +35,7 @@ const setInactiveState = () => {
 
 const setActiveState = () => {
   adFormElement.classList.remove('ad-form--disabled');
-  mapFilterElemnt.classList.remove('map__filters--disabled');
+  mapFilterElement.classList.remove('map__filters--disabled');
   for (const formElement of adFormElements) {
     formElement.disabled = false;
   }
@@ -49,7 +49,7 @@ const pristine = new Pristine(adFormElement, {
   errorTextParent: 'ad-form__element',
   errorTextClass: 'ad-form__element--invalid'
 });
-function validateRoomNuber() {
+function validateRoomNumber() {
   return ROOM_OPTIONS[roomNumberElement.value].includes(capacityElement.value);
 }
 function getErrorMessage() {
@@ -63,8 +63,8 @@ function getErrorMessage() {
   `;
 }
 
-pristine.addValidator(roomNumberElement, validateRoomNuber, getErrorMessage);
-pristine.addValidator(capacityElement, validateRoomNuber, getErrorMessage);
+pristine.addValidator(roomNumberElement, validateRoomNumber, getErrorMessage);
+pristine.addValidator(capacityElement, validateRoomNumber, getErrorMessage);
 function validateOnChange(form, form2) {
   form.addEventListener('change', () => {
     pristine.validate(form2);
@@ -79,14 +79,15 @@ adFormElement.addEventListener('submit', () => {
   pristine.validate();
 });
 function validatePrice(value) {
-  return value >= MAX_PRICE[typeElement.value];
+  return value >= MIN_PRICE[typeElement.value];
 }
 function getPriceErrorMessage() {
-  return `Минимальная цена ${MAX_PRICE[typeElement.value]}руб.`;
+  return `Минимальная цена ${MIN_PRICE[typeElement.value]}руб.`;
 }
 pristine.addValidator(priceElement, validatePrice, getPriceErrorMessage);
 typeElement.addEventListener('change', () => {
-  priceElement.placeholder = MAX_PRICE[typeElement.value];
+  priceElement.placeholder = MIN_PRICE[typeElement.value];
+  priceElement.min = MIN_PRICE[typeElement.value];
   pristine.validate(priceElement);
 });
 
