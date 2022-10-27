@@ -22,6 +22,37 @@ const MIN_PRICE = {
   'palace': 10000
 };
 
+//Слайдер
+const sliderElement = document.querySelector('.ad-form__slider');
+
+noUiSlider.create(sliderElement, {
+  start: MIN_PRICE[typeElement.value],
+  range: {
+    min: MIN_PRICE[typeElement.value],
+    max: 100000
+  },
+  connect: 'lower',
+  step: 0
+});
+
+sliderElement.noUiSlider.on('update', () => {
+  priceElement.value = Math.round(sliderElement.noUiSlider.get());
+});
+
+typeElement.addEventListener('change', () => {
+  sliderElement.noUiSlider.updateOptions({
+    start: MIN_PRICE[typeElement.value],
+    range: {
+      min: MIN_PRICE[typeElement.value],
+      max: 100000
+    }
+  });
+});
+
+priceElement.addEventListener('change', () => {
+  sliderElement.noUiSlider.set(priceElement.value);
+});
+
 const setInactiveState = () => {
   adFormElement.classList.add('ad-form--disabled');
   mapFilterElement.classList.add('map__filters--disabled');
@@ -31,6 +62,7 @@ const setInactiveState = () => {
   for (const mapFilter of mapFilterElements) {
     mapFilter.disabled = true;
   }
+  sliderElement.setAttribute('dissabled', true);
 };
 
 const setActiveState = () => {
@@ -42,8 +74,10 @@ const setActiveState = () => {
   for (const mapFilter of mapFilterElements) {
     mapFilter.disabled = false;
   }
+  sliderElement.disabled('dissabled', false);
 };
 
+// Валидация
 const pristine = new Pristine(adFormElement, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
@@ -75,7 +109,8 @@ function validateOnChange(form, form2) {
 }
 validateOnChange(roomNumberElement, capacityElement);
 
-adFormElement.addEventListener('submit', () => {
+adFormElement.addEventListener('submit', (evt) => {
+  evt.preventDefault();
   pristine.validate();
 });
 function validatePrice(value) {
@@ -97,4 +132,5 @@ timeInElement.addEventListener('change', () => {
 timeOutElement.addEventListener('change', () => {
   timeInElement.value = timeOutElement.value;
 });
+
 export { setActiveState, setInactiveState };
