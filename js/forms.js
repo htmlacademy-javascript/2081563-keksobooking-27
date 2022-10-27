@@ -65,6 +65,7 @@ const setInactiveState = () => {
   sliderElement.setAttribute('dissabled', true);
 };
 
+// Состояние сайта
 const setActiveState = () => {
   adFormElement.classList.remove('ad-form--disabled');
   mapFilterElement.classList.remove('map__filters--disabled');

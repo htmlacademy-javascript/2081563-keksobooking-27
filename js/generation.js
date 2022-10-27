@@ -9,7 +9,7 @@ const TYPE_ROOMS = {
   palace: 'Дворец',
   hotel: 'Отель'
 };
-const mapCanvasElement = document.querySelector('.map__canvas');
+// const mapCanvasElement = document.querySelector('.map__canvas');
 const newFragment = document.createDocumentFragment();
 
 offers.forEach(({author, offer}) => {
@@ -94,4 +94,4 @@ offers.forEach(({author, offer}) => {
   newFragment.append(copyPopupElement);
 });
 
-mapCanvasElement.append(newFragment.children[0]);
+// mapCanvasElement.append(newFragment.children[0]);
