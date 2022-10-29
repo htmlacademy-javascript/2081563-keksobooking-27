@@ -93,5 +93,5 @@ offers.forEach(({author, offer}) => {
   }
   newFragment.append(copyPopupElement);
 });
-
 // mapCanvasElement.append(newFragment.children[0]);
+export {newFragment};

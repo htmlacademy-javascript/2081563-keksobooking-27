@@ -8,6 +8,8 @@ const typeElement = adFormElement.querySelector('[name = "type"]');
 const priceElement = adFormElement.querySelector('[name = "price"]');
 const timeOutElement = adFormElement.querySelector('[name = "timeout"]');
 const timeInElement = adFormElement.querySelector('[name = "timein"]');
+const addressElement = document.querySelector('[name = "address"]');
+const sliderElement = document.querySelector('.ad-form__slider');
 const ROOM_OPTIONS = {
   '1': ['1'],
   '2': ['2', '1'],
@@ -23,8 +25,6 @@ const MIN_PRICE = {
 };
 
 //Слайдер
-const sliderElement = document.querySelector('.ad-form__slider');
-
 noUiSlider.create(sliderElement, {
   start: MIN_PRICE[typeElement.value],
   range: {
@@ -53,6 +53,7 @@ priceElement.addEventListener('change', () => {
   sliderElement.noUiSlider.set(priceElement.value);
 });
 
+// Состояние сайта
 const setInactiveState = () => {
   adFormElement.classList.add('ad-form--disabled');
   mapFilterElement.classList.add('map__filters--disabled');
@@ -62,20 +63,20 @@ const setInactiveState = () => {
   for (const mapFilter of mapFilterElements) {
     mapFilter.disabled = true;
   }
-  sliderElement.setAttribute('dissabled', true);
+  sliderElement.setAttribute('disabled', true);
 };
 
-// Состояние сайта
 const setActiveState = () => {
   adFormElement.classList.remove('ad-form--disabled');
   mapFilterElement.classList.remove('map__filters--disabled');
+  addressElement.readOnly = true;
   for (const formElement of adFormElements) {
     formElement.disabled = false;
   }
   for (const mapFilter of mapFilterElements) {
     mapFilter.disabled = false;
   }
-  sliderElement.disabled('dissabled', false);
+  sliderElement.removeAttribute('disabled');
 };
 
 // Валидация
@@ -133,5 +134,4 @@ timeInElement.addEventListener('change', () => {
 timeOutElement.addEventListener('change', () => {
   timeInElement.value = timeOutElement.value;
 });
-
-export { setActiveState, setInactiveState };
+export { setActiveState, setInactiveState, adFormElement };
