@@ -1,5 +1,6 @@
 import { setActiveState, adFormElement } from './forms.js';
 import { newFragment } from './generation.js';
+
 const addressElement = document.querySelector('[name = "address"]');
 const map = L.map('map-canvas').on('load', () => {
   setActiveState();
