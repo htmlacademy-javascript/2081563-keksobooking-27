@@ -24,35 +24,6 @@ const MIN_PRICE = {
   'palace': 10000
 };
 
-//Слайдер
-noUiSlider.create(sliderElement, {
-  start: MIN_PRICE[typeElement.value],
-  range: {
-    min: MIN_PRICE[typeElement.value],
-    max: 100000
-  },
-  connect: 'lower',
-  step: 0
-});
-
-sliderElement.noUiSlider.on('update', () => {
-  priceElement.value = Math.round(sliderElement.noUiSlider.get());
-});
-
-typeElement.addEventListener('change', () => {
-  sliderElement.noUiSlider.updateOptions({
-    start: MIN_PRICE[typeElement.value],
-    range: {
-      min: MIN_PRICE[typeElement.value],
-      max: 100000
-    }
-  });
-});
-
-priceElement.addEventListener('change', () => {
-  sliderElement.noUiSlider.set(priceElement.value);
-});
-
 // Состояние сайта
 const setInactiveState = () => {
   adFormElement.classList.add('ad-form--disabled');
@@ -134,4 +105,4 @@ timeInElement.addEventListener('change', () => {
 timeOutElement.addEventListener('change', () => {
   timeInElement.value = timeOutElement.value;
 });
-export { setActiveState, setInactiveState, adFormElement };
+export { setActiveState, setInactiveState, adFormElement, sliderElement, MIN_PRICE, typeElement, priceElement };
