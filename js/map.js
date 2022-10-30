@@ -1,8 +1,6 @@
 import { setActiveState, adFormElement } from './forms.js';
-import { createMocks } from './create-mocks.js';
 import { newFragment } from './generation.js';
 const addressElement = document.querySelector('[name = "address"]');
-const offers = createMocks();
 const map = L.map('map-canvas').on('load', () => {
   setActiveState();
 })
@@ -56,19 +54,17 @@ adFormElement.addEventListener('reset', () => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const createMarker = (offer, index) => {
-  const address = newFragment.children[index].querySelector('.popup__text--address').textContent;
-  const coordinatLat = address.split(',')[0];
-  const coordinatLng = address.split(',')[1];
+const createMarker = (_, index) => {
+  const address = newFragment[index].querySelector('.popup__text--address').textContent;
   const minorMarker = L.marker({
-    lat: coordinatLat,
-    lng: coordinatLng
+    lat: address.split(',')[0],
+    lng: address.split(',')[1]
   },
   {
     icon: minorIcon
   });
-  minorMarker.addTo(markerGroup).bindPopup(newFragment.children[index]);
+  minorMarker.addTo(markerGroup).bindPopup(newFragment[index]);
 };
-offers.forEach((offer, index) => {
-  createMarker(offer, index);
+newFragment.forEach((_, index) => {
+  createMarker(_, index);
 });
