@@ -1,20 +1,22 @@
 const adFormElement = document.querySelector('.ad-form');
 const adFormElements = adFormElement.querySelectorAll('.ad-form__element');
-const mapFilterElemnt = document.querySelector('.map__filters');
-const mapFilterElements = mapFilterElemnt.querySelectorAll('.map__filter');
+const mapFilterElement = document.querySelector('.map__filters');
+const mapFilterElements = mapFilterElement.querySelectorAll('.map__filter');
 const roomNumberElement = adFormElement.querySelector('[name = "rooms"]');
 const capacityElement = adFormElement.querySelector('[name = "capacity"]');
 const typeElement = adFormElement.querySelector('[name = "type"]');
 const priceElement = adFormElement.querySelector('[name = "price"]');
 const timeOutElement = adFormElement.querySelector('[name = "timeout"]');
 const timeInElement = adFormElement.querySelector('[name = "timein"]');
+const addressElement = document.querySelector('[name = "address"]');
+const sliderElement = document.querySelector('.ad-form__slider');
 const ROOM_OPTIONS = {
   '1': ['1'],
   '2': ['2', '1'],
   '3': ['3', '2', '1'],
   '100': ['0']
 };
-const MAX_PRICE = {
+const MIN_PRICE = {
   'bungalow': 0,
   'flat': 1000,
   'hotel': 3000,
@@ -22,34 +24,68 @@ const MAX_PRICE = {
   'palace': 10000
 };
 
+//Слайдер
+noUiSlider.create(sliderElement, {
+  start: MIN_PRICE[typeElement.value],
+  range: {
+    min: MIN_PRICE[typeElement.value],
+    max: 100000
+  },
+  connect: 'lower',
+  step: 0
+});
+
+sliderElement.noUiSlider.on('update', () => {
+  priceElement.value = Math.round(sliderElement.noUiSlider.get());
+});
+
+typeElement.addEventListener('change', () => {
+  sliderElement.noUiSlider.updateOptions({
+    start: MIN_PRICE[typeElement.value],
+    range: {
+      min: MIN_PRICE[typeElement.value],
+      max: 100000
+    }
+  });
+});
+
+priceElement.addEventListener('change', () => {
+  sliderElement.noUiSlider.set(priceElement.value);
+});
+
+// Состояние сайта
 const setInactiveState = () => {
   adFormElement.classList.add('ad-form--disabled');
-  mapFilterElemnt.classList.add('map__filters--disabled');
+  mapFilterElement.classList.add('map__filters--disabled');
   for (const formElement of adFormElements) {
     formElement.disabled = true;
   }
   for (const mapFilter of mapFilterElements) {
     mapFilter.disabled = true;
   }
+  sliderElement.setAttribute('disabled', true);
 };
 
 const setActiveState = () => {
   adFormElement.classList.remove('ad-form--disabled');
-  mapFilterElemnt.classList.remove('map__filters--disabled');
+  mapFilterElement.classList.remove('map__filters--disabled');
+  addressElement.readOnly = true;
   for (const formElement of adFormElements) {
     formElement.disabled = false;
   }
   for (const mapFilter of mapFilterElements) {
     mapFilter.disabled = false;
   }
+  sliderElement.removeAttribute('disabled');
 };
 
+// Валидация
 const pristine = new Pristine(adFormElement, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
   errorTextClass: 'ad-form__element--invalid'
 });
-function validateRoomNuber() {
+function validateRoomNumber() {
   return ROOM_OPTIONS[roomNumberElement.value].includes(capacityElement.value);
 }
 function getErrorMessage() {
@@ -63,8 +99,8 @@ function getErrorMessage() {
   `;
 }
 
-pristine.addValidator(roomNumberElement, validateRoomNuber, getErrorMessage);
-pristine.addValidator(capacityElement, validateRoomNuber, getErrorMessage);
+pristine.addValidator(roomNumberElement, validateRoomNumber, getErrorMessage);
+pristine.addValidator(capacityElement, validateRoomNumber, getErrorMessage);
 function validateOnChange(form, form2) {
   form.addEventListener('change', () => {
     pristine.validate(form2);
@@ -75,18 +111,20 @@ function validateOnChange(form, form2) {
 }
 validateOnChange(roomNumberElement, capacityElement);
 
-adFormElement.addEventListener('submit', () => {
+adFormElement.addEventListener('submit', (evt) => {
+  evt.preventDefault();
   pristine.validate();
 });
 function validatePrice(value) {
-  return value >= MAX_PRICE[typeElement.value];
+  return value >= MIN_PRICE[typeElement.value];
 }
 function getPriceErrorMessage() {
-  return `Минимальная цена ${MAX_PRICE[typeElement.value]}руб.`;
+  return `Минимальная цена ${MIN_PRICE[typeElement.value]}руб.`;
 }
 pristine.addValidator(priceElement, validatePrice, getPriceErrorMessage);
 typeElement.addEventListener('change', () => {
-  priceElement.placeholder = MAX_PRICE[typeElement.value];
+  priceElement.placeholder = MIN_PRICE[typeElement.value];
+  priceElement.min = MIN_PRICE[typeElement.value];
   pristine.validate(priceElement);
 });
 
@@ -96,4 +134,4 @@ timeInElement.addEventListener('change', () => {
 timeOutElement.addEventListener('change', () => {
   timeInElement.value = timeOutElement.value;
 });
-export { setActiveState, setInactiveState };
+export { setActiveState, setInactiveState, adFormElement };
