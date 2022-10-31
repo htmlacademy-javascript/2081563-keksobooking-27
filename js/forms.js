@@ -14,7 +14,6 @@ const MIN_PRICE = {
   'palace': 10000
 };
 
-// Состояние сайта
 const setInactiveState = () => {
   adFormElement.classList.add('ad-form--disabled');
   mapFilterElement.classList.add('map__filters--disabled');

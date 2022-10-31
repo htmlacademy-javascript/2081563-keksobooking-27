@@ -92,4 +92,4 @@ offers.forEach(({author, offer}) => {
   }
   newFragment.push(copyPopupElement);
 });
-export {newFragment};
+export {newFragment, offers};

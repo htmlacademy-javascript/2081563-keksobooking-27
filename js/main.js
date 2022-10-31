@@ -1,4 +1,3 @@
-/* eslint-disable */
 import './create-mocks.js';
 import './generation.js';
 import './slider.js';

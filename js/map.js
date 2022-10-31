@@ -1,14 +1,8 @@
 import { setActiveState, adFormElement } from './forms.js';
-import { newFragment } from './generation.js';
+import { newFragment, offers } from './generation.js';
 
 const addressElement = document.querySelector('[name = "address"]');
-const map = L.map('map-canvas').on('load', () => {
-  setActiveState();
-})
-  .setView({
-    lat: 35.682567,
-    lng: 139.751143,
-  }, 13);
+const map = L.map('map-canvas');
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -38,8 +32,17 @@ const mainMarker = L.marker({
 });
 mainMarker.addTo(map);
 
+map.on('load', () => {
+  setActiveState();
+  addressElement.value = `lat: ${mainMarker.getLatLng().lat.toFixed(5)}, lng: ${mainMarker.getLatLng().lng.toFixed(5)}`;
+})
+  .setView({
+    lat: 35.682567,
+    lng: 139.751143,
+  }, 13);
 mainMarker.on('moveend', (evt) => {
-  addressElement.value = evt.target.getLatLng();
+  const coordinatLatLng = evt.target.getLatLng();
+  addressElement.value = `lat: ${coordinatLatLng.lat.toFixed(5)}, lng: ${coordinatLatLng.lng.toFixed(5)}`;
 });
 
 adFormElement.addEventListener('reset', () => {
@@ -55,17 +58,16 @@ adFormElement.addEventListener('reset', () => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const createMarker = (_, index) => {
-  const address = newFragment[index].querySelector('.popup__text--address').textContent;
+const createMarker = (offer, index) => {
   const minorMarker = L.marker({
-    lat: address.split(',')[0],
-    lng: address.split(',')[1]
+    lat: offer.location.lat,
+    lng: offer.location.lng
   },
   {
     icon: minorIcon
   });
   minorMarker.addTo(markerGroup).bindPopup(newFragment[index]);
 };
-newFragment.forEach((_, index) => {
-  createMarker(_, index);
+offers.forEach((offer, index) => {
+  createMarker(offer, index);
 });
