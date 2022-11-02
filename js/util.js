@@ -14,4 +14,17 @@ const getRandomNumber = (min, max, round = 1) => {
   return +result;
 };
 
+// const showAlertMessage = (message) => {
+//   const containerElement = document.createElement('div');
+//   containerElement.style.position = 'absolute';
+//   containerElement.style.zIndex = '100';
+//   containerElement.style.top = '0';
+//   containerElement.style.left = '0';
+//   containerElement.style.right = '0';
+//   containerElement.style.backgroundColor = 'black';
+
+//   document.body.append(containerElement);
+// };
+// showAlertMessage();
+
 export {getRandomNumber};

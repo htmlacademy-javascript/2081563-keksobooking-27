@@ -1,5 +1,5 @@
 import { setActiveState, adFormElement } from './forms.js';
-import { newFragment, offers } from './generation.js';
+import { newFragment } from './generation.js';
 
 const addressElement = document.querySelector('[name = "address"]');
 const map = L.map('map-canvas');
@@ -68,6 +68,10 @@ const createMarker = (offer, index) => {
   });
   minorMarker.addTo(markerGroup).bindPopup(newFragment[index]);
 };
-offers.forEach((offer, index) => {
-  createMarker(offer, index);
-});
+const renderMarks = (offers) => {
+  offers.forEach((offer, index) => {
+    createMarker(offer, index);
+  });
+};
+
+export {renderMarks};

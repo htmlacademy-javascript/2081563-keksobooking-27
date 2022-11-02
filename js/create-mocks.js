@@ -37,5 +37,4 @@ const createObject = (_, index) => {
 };
 
 const createMocks = () => Array.from({length: COPY_OBJECT_COUNT}, createObject);
-
 export{createMocks};
