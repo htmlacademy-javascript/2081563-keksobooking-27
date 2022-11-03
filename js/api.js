@@ -1,15 +1,21 @@
-import {renderOffers} from './generation.js';
-import { renderMarks } from './map.js';
-fetch('https://27.javascript.pages.academy/keksobooking/data')
-  .then((response) => {
-    if (response.ok) {
-      return response;
-    }
-    throw new Error ('ошибка');
-  })
-  .then((response) => response.json())
-  .then((data) => {
-    renderOffers(data);
-    renderMarks(data);
-  });
+import {LINK_GET, LINK_POST, showAlertMessage} from './util.js';
 
+function getData() {
+  return fetch(LINK_GET)
+    .then((response) => {
+      if (response.ok) {
+        return response;
+      }
+      throw new Error(showAlertMessage());
+    });
+}
+
+function sendData(data) {
+  return fetch(LINK_POST,
+    {
+      method: 'POST',
+      body: data
+    });
+}
+
+export { getData, sendData };

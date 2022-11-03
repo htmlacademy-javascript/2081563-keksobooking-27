@@ -74,4 +74,17 @@ const renderMarks = (offers) => {
   });
 };
 
-export {renderMarks};
+function resetForm (form) {
+  form.reset();
+  mainMarker.setLatLng({
+    lat: 35.682567,
+    lng: 139.751143,
+  });
+  map.setView({
+    lat: 35.682567,
+    lng: 139.751143
+  }, 13);
+  addressElement.value = `lat: ${mainMarker.getLatLng().lat.toFixed(5)}, lng: ${mainMarker.getLatLng().lng.toFixed(5)}`;
+}
+
+export {renderMarks, resetForm};

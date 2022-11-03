@@ -50,8 +50,8 @@ const renderOffers = (offers) => {
       removeElement('.popup__text--time');
     }
     const featuresListElements = copyPopupElement.querySelectorAll('.popup__feature');
-    const modifiers = offer.features.map((el) => `popup__feature--${el}`);
     if (offer.features) {
+      const modifiers = offer.features.map((el) => `popup__feature--${el}`);
       featuresListElements.forEach((featureList) => {
         const modifier = featureList.classList[1];
         if (!modifiers.includes(modifier)) {
@@ -60,7 +60,7 @@ const renderOffers = (offers) => {
       });
     }
     else {
-      featuresListElements.remove();
+      featuresListElements.forEach((el) => el.remove());
     }
     if (offer.description) {
       copyPopupElement.querySelector('.popup__description').textContent = offer.description;
