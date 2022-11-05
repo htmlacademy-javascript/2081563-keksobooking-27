@@ -27,3 +27,9 @@ typeElement.addEventListener('change', () => {
 priceElement.addEventListener('change', () => {
   sliderElement.noUiSlider.set(priceElement.value);
 });
+
+const sliderReset = () => {
+  sliderElement.noUiSlider.set(MIN_PRICE[typeElement.value]);
+};
+
+export {sliderReset};

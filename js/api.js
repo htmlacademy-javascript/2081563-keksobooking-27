@@ -1,4 +1,5 @@
-import {LINK_GET, LINK_POST, showAlertMessage} from './util.js';
+import {LINK_GET, LINK_POST} from './util.js';
+import {showAlertMessage} from './messages.js';
 
 function getData() {
   return fetch(LINK_GET)

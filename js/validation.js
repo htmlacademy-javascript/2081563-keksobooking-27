@@ -1,7 +1,4 @@
 import { adFormElement, typeElement, MIN_PRICE, priceElement } from './forms.js';
-import { sendData } from './api.js';
-import { resetForm } from './map.js';
-import { copySuccessElement, showErrorMessage } from './util.js';
 const roomNumberElement = adFormElement.querySelector('[name = "rooms"]');
 const capacityElement = adFormElement.querySelector('[name = "capacity"]');
 const timeOutElement = adFormElement.querySelector('[name = "timeout"]');
@@ -44,47 +41,6 @@ function validateOnChange(form, form2) {
 }
 validateOnChange(roomNumberElement, capacityElement);
 
-const onEscDown = (evt) => {
-  if (evt.key === 'Escape') {
-    hiddenSuccesMessage();
-  }
-};
-
-const onClick = () => {
-  hiddenSuccesMessage();
-};
-
-function showSuccesMessage() {
-  document.body.append(copySuccessElement);
-  document.addEventListener('keydown', onEscDown);
-  document.addEventListener('click', onClick);
-}
-
-function hiddenSuccesMessage() {
-  copySuccessElement.remove();
-  document.removeEventListener('keydown', onEscDown);
-  document.removeEventListener('click', onClick);
-}
-
-adFormElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const isValid = pristine.validate();
-  if (isValid) {
-    const formData = new FormData(evt.target);
-    sendData(formData)
-      .then((response) => {
-        if (response.ok) {
-          return response;
-        }
-        throw showErrorMessage();
-      })
-      .then(() => {
-        resetForm(evt.target);
-        showSuccesMessage();
-      }).catch((error) => error);
-  }
-});
-
 function validatePrice(value) {
   return value >= MIN_PRICE[typeElement.value];
 }
@@ -104,3 +60,5 @@ timeInElement.addEventListener('change', () => {
 timeOutElement.addEventListener('change', () => {
   timeInElement.value = timeOutElement.value;
 });
+
+export { pristine };
