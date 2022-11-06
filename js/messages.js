@@ -4,7 +4,7 @@ const errorElement = document.querySelector('#error').content.querySelector('.er
 const copyErrorElement = errorElement.cloneNode(true);
 const errorButtonElement = copyErrorElement.querySelector('.error__button');
 
-const showAlertMessage = () => {
+const showAlertMessage = (message) => {
   const containerElement = document.createElement('div');
   containerElement.style.position = 'absolute';
   containerElement.style.zIndex = '100';
@@ -13,7 +13,7 @@ const showAlertMessage = () => {
   containerElement.style.right = '0';
   containerElement.style.backgroundColor = 'black';
   containerElement.style.height = '100px';
-  containerElement.textContent = 'При загрузке данных с сервера произошла ошибка, пожалуйста перезагрузите страницу.';
+  containerElement.textContent = message;
   containerElement.style.color = 'white';
   containerElement.style.textAlign = 'center';
   containerElement.style.padding = '35px';

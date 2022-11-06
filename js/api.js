@@ -6,7 +6,7 @@ function getData() {
       if (response.ok) {
         return response.json();
       }
-      throw new Error('Ошибка загрузки данных');
+      throw new Error('При загрузке данных с сервера произошла ошибка');
     });
 }
 

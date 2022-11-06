@@ -10,4 +10,4 @@ getData()
     renderOffers(data);
     renderMarks(data);
   })
-  .catch(() => showAlertMessage());
+  .catch((error) => showAlertMessage(error.message));
