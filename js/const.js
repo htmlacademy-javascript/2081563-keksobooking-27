@@ -16,4 +16,12 @@ const MIN_PRICE = {
   'palace': 10000
 };
 
-export {LINK_GET, LINK_POST, ROOM_OPTIONS, MIN_PRICE};
+const TYPE_ROOMS = {
+  flat: 'Квартира',
+  bungalow: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец',
+  hotel: 'Отель'
+};
+
+export {LINK_GET, LINK_POST, ROOM_OPTIONS, MIN_PRICE, TYPE_ROOMS};

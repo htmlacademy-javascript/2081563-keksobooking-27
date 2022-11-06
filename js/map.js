@@ -78,16 +78,4 @@ const renderMarks = (offers) => {
   });
 };
 
-function resetMapInput () {
-  mainMarker.setLatLng({
-    lat: 35.682567,
-    lng: 139.751143,
-  });
-  map.setView({
-    lat: 35.682567,
-    lng: 139.751143
-  }, 13);
-  updateAdressValue();
-}
-
-export {renderMarks, resetMapInput, resetMap, addressElement};
+export {renderMarks, resetMap, addressElement};

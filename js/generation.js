@@ -1,11 +1,6 @@
+import { TYPE_ROOMS } from './const.js';
+
 const popupElement = document.querySelector('#card').content.querySelector('.popup');
-const TYPE_ROOMS = {
-  flat: 'Квартира',
-  bungalow: 'Бунгало',
-  house: 'Дом',
-  palace: 'Дворец',
-  hotel: 'Отель'
-};
 const newFragment = [];
 const renderOffers = (offers) => {
   offers.forEach(({ author, offer }) => {

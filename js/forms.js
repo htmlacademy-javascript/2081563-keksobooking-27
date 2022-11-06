@@ -1,14 +1,14 @@
 import { sendData } from './api.js';
 import { pristine, adFormElement, typeElement } from './validation.js';
-import { resetMapInput } from './map.js';
+import { resetMap } from './map.js';
 import { showSuccesMessage, showErrorMessage } from './messages.js';
 import { MIN_PRICE } from './const.js';
+import { sliderElement } from './slider.js';
 
 const adFormElements = adFormElement.querySelectorAll('.ad-form__element');
 const mapFilterElement = document.querySelector('.map__filters');
 const mapFilterElements = mapFilterElement.querySelectorAll('.map__filter');
 const addressElement = document.querySelector('[name = "address"]');
-const sliderElement = document.querySelector('.ad-form__slider');
 const resetButtonElement = document.querySelector('.ad-form__reset');
 
 const resetSlider = () => {
@@ -40,6 +40,12 @@ const setActiveState = () => {
   sliderElement.removeAttribute('disabled');
 };
 
+const resetFormValue = () => {
+  adFormElement.reset();
+  resetMap();
+  resetSlider();
+};
+
 const attachFormListeners = () => {
   adFormElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -49,9 +55,7 @@ const attachFormListeners = () => {
       sendData(formData)
         .then((response) => {
           if (response.ok) {
-            evt.target.reset();
-            resetMapInput();
-            resetSlider();
+            resetFormValue();
             showSuccesMessage();
           }
           else {
@@ -64,10 +68,8 @@ const attachFormListeners = () => {
 
   resetButtonElement.addEventListener('click', (evt) => {
     evt.preventDefault();
-    adFormElement.reset();
-    resetMapInput();
-    resetSlider();
+    resetFormValue();
   });
 };
 
-export { setActiveState, setInactiveState, sliderElement, attachFormListeners };
+export { setActiveState, setInactiveState, attachFormListeners };
