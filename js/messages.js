@@ -22,8 +22,14 @@ const showAlertMessage = () => {
   document.body.append(containerElement);
 };
 
-function showErrorMessage () {
+const showErrorMessage = () => {
   document.body.append(copyErrorElement);
+  const onEscError = (evt) => {
+    if (evt.key === 'Escape') {
+      copyErrorElement.remove();
+      document.removeEventListener('keydown', onEscError);
+    }
+  };
   const onClickError = () => {
     copyErrorElement.remove();
     document.removeEventListener('click', onClickError);
@@ -32,7 +38,8 @@ function showErrorMessage () {
     copyErrorElement.remove();
   });
   document.addEventListener('click', onClickError);
-}
+  document.addEventListener('keydown', onEscError);
+};
 
 const onEscDown = (evt) => {
   if (evt.key === 'Escape') {
@@ -44,11 +51,11 @@ const onClick = () => {
   hiddenSuccesMessage();
 };
 
-function showSuccesMessage() {
+const showSuccesMessage = () => {
   document.body.append(copySuccessElement);
   document.addEventListener('keydown', onEscDown);
   document.addEventListener('click', onClick);
-}
+};
 
 function hiddenSuccesMessage() {
   copySuccessElement.remove();

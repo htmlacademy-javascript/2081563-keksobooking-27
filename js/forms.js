@@ -1,17 +1,18 @@
-const adFormElement = document.querySelector('.ad-form');
+import { sendData } from './api.js';
+import { pristine, adFormElement, typeElement } from './validation.js';
+import { resetMapInput } from './map.js';
+import { showSuccesMessage, showErrorMessage } from './messages.js';
+import { MIN_PRICE } from './const.js';
+
 const adFormElements = adFormElement.querySelectorAll('.ad-form__element');
 const mapFilterElement = document.querySelector('.map__filters');
 const mapFilterElements = mapFilterElement.querySelectorAll('.map__filter');
-const typeElement = adFormElement.querySelector('[name = "type"]');
-const priceElement = adFormElement.querySelector('[name = "price"]');
 const addressElement = document.querySelector('[name = "address"]');
 const sliderElement = document.querySelector('.ad-form__slider');
-const MIN_PRICE = {
-  'bungalow': 0,
-  'flat': 1000,
-  'hotel': 3000,
-  'house': 5000,
-  'palace': 10000
+const resetButtonElement = document.querySelector('.ad-form__reset');
+
+const resetSlider = () => {
+  sliderElement.noUiSlider.set(MIN_PRICE[typeElement.value]);
 };
 
 const setInactiveState = () => {
@@ -38,4 +39,35 @@ const setActiveState = () => {
   }
   sliderElement.removeAttribute('disabled');
 };
-export { setActiveState, setInactiveState, adFormElement, sliderElement, MIN_PRICE, typeElement, priceElement };
+
+const attachFormListeners = () => {
+  adFormElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      const formData = new FormData(evt.target);
+      sendData(formData)
+        .then((response) => {
+          if (response.ok) {
+            evt.target.reset();
+            resetMapInput();
+            resetSlider();
+            showSuccesMessage();
+          }
+          else {
+            throw new Error('Ошибка оптравки данных');
+          }
+        })
+        .catch(() => showErrorMessage());
+    }
+  });
+
+  resetButtonElement.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    adFormElement.reset();
+    resetMapInput();
+    resetSlider();
+  });
+};
+
+export { setActiveState, setInactiveState, sliderElement, attachFormListeners };

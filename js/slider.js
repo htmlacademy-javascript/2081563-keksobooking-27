@@ -1,4 +1,6 @@
-import {sliderElement, typeElement, MIN_PRICE, priceElement} from './forms.js';
+import {sliderElement} from './forms.js';
+import {MIN_PRICE} from './const.js';
+import {typeElement, priceElement} from './validation.js';
 
 noUiSlider.create(sliderElement, {
   start: MIN_PRICE[typeElement.value],
@@ -27,9 +29,3 @@ typeElement.addEventListener('change', () => {
 priceElement.addEventListener('change', () => {
   sliderElement.noUiSlider.set(priceElement.value);
 });
-
-const sliderReset = () => {
-  sliderElement.noUiSlider.set(MIN_PRICE[typeElement.value]);
-};
-
-export {sliderReset};

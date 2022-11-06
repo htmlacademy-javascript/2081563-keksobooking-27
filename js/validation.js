@@ -1,14 +1,12 @@
-import { adFormElement, typeElement, MIN_PRICE, priceElement } from './forms.js';
+import { ROOM_OPTIONS, MIN_PRICE } from './const.js';
+
+const adFormElement = document.querySelector('.ad-form');
 const roomNumberElement = adFormElement.querySelector('[name = "rooms"]');
+const priceElement = adFormElement.querySelector('[name = "price"]');
+const typeElement = adFormElement.querySelector('[name = "type"]');
 const capacityElement = adFormElement.querySelector('[name = "capacity"]');
 const timeOutElement = adFormElement.querySelector('[name = "timeout"]');
 const timeInElement = adFormElement.querySelector('[name = "timein"]');
-const ROOM_OPTIONS = {
-  '1': ['1'],
-  '2': ['2', '1'],
-  '3': ['3', '2', '1'],
-  '100': ['0']
-};
 
 const pristine = new Pristine(adFormElement, {
   classTo: 'ad-form__element',
@@ -61,4 +59,4 @@ timeOutElement.addEventListener('change', () => {
   timeInElement.value = timeOutElement.value;
 });
 
-export { pristine };
+export { pristine, adFormElement, typeElement, priceElement };

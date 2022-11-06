@@ -3,8 +3,6 @@ import { newFragment } from './generation.js';
 
 const addressElement = document.querySelector('[name = "address"]');
 const map = L.map('map-canvas');
-const titleElement = document.querySelector('[name = "title"]');
-const descriptionElement = document.querySelector('[name = "description"]');
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -33,10 +31,13 @@ const mainMarker = L.marker({
   icon: mainIcon
 });
 mainMarker.addTo(map);
+const updateAdressValue = () => {
+  addressElement.value = `lat: ${mainMarker.getLatLng().lat.toFixed(5)}, lng: ${mainMarker.getLatLng().lng.toFixed(5)}`;
+};
 
 map.on('load', () => {
   setActiveState();
-  addressElement.value = `lat: ${mainMarker.getLatLng().lat.toFixed(5)}, lng: ${mainMarker.getLatLng().lng.toFixed(5)}`;
+  updateAdressValue();
 })
   .setView({
     lat: 35.682567,
@@ -56,7 +57,7 @@ const resetMap = () => {
     lat: 35.682567,
     lng: 139.751143
   }, 13);
-  addressElement.value = `lat: ${mainMarker.getLatLng().lat.toFixed(5)}, lng: ${mainMarker.getLatLng().lng.toFixed(5)}`;
+  updateAdressValue();
 };
 
 const markerGroup = L.layerGroup().addTo(map);
@@ -77,9 +78,7 @@ const renderMarks = (offers) => {
   });
 };
 
-function resetForm () {
-  titleElement.value = '';
-  descriptionElement.value = '';
+function resetMapInput () {
   mainMarker.setLatLng({
     lat: 35.682567,
     lng: 139.751143,
@@ -88,7 +87,7 @@ function resetForm () {
     lat: 35.682567,
     lng: 139.751143
   }, 13);
-  addressElement.value = `lat: ${mainMarker.getLatLng().lat.toFixed(5)}, lng: ${mainMarker.getLatLng().lng.toFixed(5)}`;
+  updateAdressValue();
 }
 
-export {renderMarks, resetForm, resetMap, addressElement};
+export {renderMarks, resetMapInput, resetMap, addressElement};

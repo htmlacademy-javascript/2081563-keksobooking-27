@@ -1,13 +1,12 @@
-import {LINK_GET, LINK_POST} from './util.js';
-import {showAlertMessage} from './messages.js';
+import {LINK_GET, LINK_POST} from './const.js';
 
 function getData() {
   return fetch(LINK_GET)
     .then((response) => {
       if (response.ok) {
-        return response;
+        return response.json();
       }
-      throw new Error(showAlertMessage());
+      throw new Error('Ошибка загрузки данных');
     });
 }
 

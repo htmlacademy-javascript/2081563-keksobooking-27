@@ -1,6 +1,3 @@
-const LINK_GET = 'https://27.javascript.pages.academy/keksobooking/data';
-const LINK_POST = 'https://27.javascript.pages.academy/keksobooking';
-
 const getRandomNumber = (min, max, round = 1) => {
   let result;
 
@@ -17,4 +14,4 @@ const getRandomNumber = (min, max, round = 1) => {
   return +result;
 };
 
-export {getRandomNumber , LINK_GET, LINK_POST};
+export {getRandomNumber};
