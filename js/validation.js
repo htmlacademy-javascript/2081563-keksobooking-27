@@ -84,4 +84,4 @@ const onChangePriceElement = (element) => {
   });
 };
 
-export { pristine, getInputValue, onChangeTypeElement, onChangePriceElement, adFormElement };
+export { pristine, getInputValue, onChangeTypeElement, onChangePriceElement };

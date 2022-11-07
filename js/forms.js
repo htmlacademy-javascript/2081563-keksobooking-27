@@ -1,9 +1,10 @@
 import { sendData } from './api.js';
-import { pristine, adFormElement } from './validation.js';
+import { pristine } from './validation.js';
 import { resetMap } from './map.js';
 import { showSuccesMessage, showErrorMessage } from './messages.js';
 import { resetSlider, toogleDisabledState } from './slider.js';
 
+const adFormElement = document.querySelector('.ad-form');
 const adFormElements = adFormElement.querySelectorAll('.ad-form__element');
 const mapFilterElement = document.querySelector('.map__filters');
 const mapFilterElements = mapFilterElement.querySelectorAll('.map__filter');
