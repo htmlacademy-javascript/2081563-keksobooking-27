@@ -7,6 +7,13 @@ const typeElement = adFormElement.querySelector('[name = "type"]');
 const capacityElement = adFormElement.querySelector('[name = "capacity"]');
 const timeOutElement = adFormElement.querySelector('[name = "timeout"]');
 const timeInElement = adFormElement.querySelector('[name = "timein"]');
+const getInputValue = (slider) => {
+  if (slider)
+  {priceElement.value = Math.round(slider.noUiSlider.get());}
+  else {
+    return MIN_PRICE[typeElement.value];
+  }
+};
 
 const pristine = new Pristine(adFormElement, {
   classTo: 'ad-form__element',
@@ -59,4 +66,22 @@ timeOutElement.addEventListener('change', () => {
   timeInElement.value = timeOutElement.value;
 });
 
-export { pristine, adFormElement, typeElement, priceElement };
+const onChangeTypeElement = (element) => {
+  typeElement.addEventListener('change', () => {
+    element.noUiSlider.updateOptions({
+      start: getInputValue(),
+      range: {
+        min: getInputValue(),
+        max: 100000
+      }
+    });
+  });
+};
+
+const onChangePriceElement = (element) => {
+  priceElement.addEventListener('change', () => {
+    element.noUiSlider.set(priceElement.value);
+  });
+};
+
+export { pristine, getInputValue, onChangeTypeElement, onChangePriceElement, adFormElement };

@@ -1,12 +1,23 @@
-import {MIN_PRICE} from './const.js';
-import {typeElement, priceElement} from './validation.js';
+import { getInputValue, onChangeTypeElement, onChangePriceElement } from './validation.js';
 
 const sliderElement = document.querySelector('.ad-form__slider');
+const resetSlider = () => {
+  sliderElement.noUiSlider.set(getInputValue());
+};
+
+const toogleDisabledState = (disabled) => {
+  if (disabled) {
+    return sliderElement.setAttribute('disabled', true);
+  }
+  else {
+    return sliderElement.removeAttribute('disabled');
+  }
+};
 
 noUiSlider.create(sliderElement, {
-  start: MIN_PRICE[typeElement.value],
+  start: getInputValue(),
   range: {
-    min: MIN_PRICE[typeElement.value],
+    min: getInputValue(),
     max: 100000
   },
   connect: 'lower',
@@ -14,21 +25,11 @@ noUiSlider.create(sliderElement, {
 });
 
 sliderElement.noUiSlider.on('update', () => {
-  priceElement.value = Math.round(sliderElement.noUiSlider.get());
+  getInputValue(sliderElement);
 });
 
-typeElement.addEventListener('change', () => {
-  sliderElement.noUiSlider.updateOptions({
-    start: MIN_PRICE[typeElement.value],
-    range: {
-      min: MIN_PRICE[typeElement.value],
-      max: 100000
-    }
-  });
-});
+onChangeTypeElement(sliderElement);
 
-priceElement.addEventListener('change', () => {
-  sliderElement.noUiSlider.set(priceElement.value);
-});
+onChangePriceElement(sliderElement);
 
-export {sliderElement};
+export { resetSlider, toogleDisabledState };

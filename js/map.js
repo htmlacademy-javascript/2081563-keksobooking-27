@@ -1,7 +1,6 @@
-import { setActiveState } from './forms.js';
+import { setActiveState, updateAddressValue } from './forms.js';
 import { newFragment } from './generation.js';
 
-const addressElement = document.querySelector('[name = "address"]');
 const map = L.map('map-canvas');
 
 L.tileLayer(
@@ -31,21 +30,17 @@ const mainMarker = L.marker({
   icon: mainIcon
 });
 mainMarker.addTo(map);
-const updateAdressValue = () => {
-  addressElement.value = `lat: ${mainMarker.getLatLng().lat.toFixed(5)}, lng: ${mainMarker.getLatLng().lng.toFixed(5)}`;
-};
 
 map.on('load', () => {
   setActiveState();
-  updateAdressValue();
+  updateAddressValue(mainMarker);
 })
   .setView({
     lat: 35.682567,
     lng: 139.751143,
   }, 13);
-mainMarker.on('moveend', (evt) => {
-  const coordinatLatLng = evt.target.getLatLng();
-  addressElement.value = `lat: ${coordinatLatLng.lat.toFixed(5)}, lng: ${coordinatLatLng.lng.toFixed(5)}`;
+mainMarker.on('moveend', () => {
+  updateAddressValue(mainMarker);
 });
 
 const resetMap = () => {
@@ -57,7 +52,7 @@ const resetMap = () => {
     lat: 35.682567,
     lng: 139.751143
   }, 13);
-  updateAdressValue();
+  updateAddressValue(mainMarker);
 };
 
 const markerGroup = L.layerGroup().addTo(map);
@@ -78,4 +73,4 @@ const renderMarks = (offers) => {
   });
 };
 
-export {renderMarks, resetMap, addressElement};
+export {renderMarks, resetMap};

@@ -1,9 +1,8 @@
 import { sendData } from './api.js';
-import { pristine, adFormElement, typeElement } from './validation.js';
+import { pristine, adFormElement } from './validation.js';
 import { resetMap } from './map.js';
 import { showSuccesMessage, showErrorMessage } from './messages.js';
-import { MIN_PRICE } from './const.js';
-import { sliderElement } from './slider.js';
+import { resetSlider, toogleDisabledState } from './slider.js';
 
 const adFormElements = adFormElement.querySelectorAll('.ad-form__element');
 const mapFilterElement = document.querySelector('.map__filters');
@@ -11,8 +10,8 @@ const mapFilterElements = mapFilterElement.querySelectorAll('.map__filter');
 const addressElement = document.querySelector('[name = "address"]');
 const resetButtonElement = document.querySelector('.ad-form__reset');
 
-const resetSlider = () => {
-  sliderElement.noUiSlider.set(MIN_PRICE[typeElement.value]);
+const updateAddressValue = (marker) => {
+  addressElement.value = `lat: ${marker.getLatLng().lat.toFixed(5)}, lng: ${marker.getLatLng().lng.toFixed(5)}`;
 };
 
 const setInactiveState = () => {
@@ -24,7 +23,7 @@ const setInactiveState = () => {
   for (const mapFilter of mapFilterElements) {
     mapFilter.disabled = true;
   }
-  sliderElement.setAttribute('disabled', true);
+  toogleDisabledState(true);
 };
 
 const setActiveState = () => {
@@ -37,7 +36,7 @@ const setActiveState = () => {
   for (const mapFilter of mapFilterElements) {
     mapFilter.disabled = false;
   }
-  sliderElement.removeAttribute('disabled');
+  toogleDisabledState(false);
 };
 
 const resetFormValue = () => {
@@ -72,4 +71,4 @@ const attachFormListeners = () => {
   });
 };
 
-export { setActiveState, setInactiveState, attachFormListeners };
+export { setActiveState, setInactiveState, attachFormListeners, updateAddressValue };
