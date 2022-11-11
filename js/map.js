@@ -73,4 +73,4 @@ const renderMarks = (offers) => {
   });
 };
 
-export {renderMarks, resetMap};
+export {renderMarks, resetMap, markerGroup};
