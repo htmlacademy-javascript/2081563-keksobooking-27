@@ -24,4 +24,9 @@ const TYPE_ROOMS = {
   hotel: 'Отель'
 };
 
-export {LINK_GET, LINK_POST, ROOM_OPTIONS, MIN_PRICE, TYPE_ROOMS, MARKS_COUNT};
+const PRICE = {
+  low: 10000,
+  middle: 50000
+};
+
+export {LINK_GET, LINK_POST, ROOM_OPTIONS, MIN_PRICE, TYPE_ROOMS, MARKS_COUNT, PRICE};

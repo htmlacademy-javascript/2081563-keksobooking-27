@@ -1,6 +1,5 @@
-import { MARKS_COUNT } from './const.js';
+import { MARKS_COUNT, PRICE } from './const.js';
 import { markerGroup, renderMarks } from './map.js';
-import { renderOffers } from './generation.js';
 
 const housingTypeElement = document.querySelector('[name = "housing-type"]');
 const housingPriceElement = document.querySelector('[name = "housing-price"]');
@@ -8,17 +7,63 @@ const housingRoomsElement = document.querySelector('[name = "housing-rooms"]');
 const housingGuestsElement = document.querySelector('[name = "housing-guests"]');
 const mapFiltersElement = document.querySelector('.map__filters');
 
-const mapFiltering = (array) => {
-  mapFiltersElement.addEventListener('change', () => {
-    const newArray = array.filter((el) => {
-      if (el.offer.type === housingTypeElement.value) {
+const filterByType = (data) => {
+  const filtered = data.filter((el) => {
+    if (el.offer.type === housingTypeElement.value || housingTypeElement.value === 'any') {
+      return true;
+    }
+  });
+  return filtered;
+};
+
+const filterByPrice = (data) => {
+  const filtered = data.filter((el) => {
+    if (housingPriceElement.value === 'low') {
+      if (el.offer.price <= PRICE.low) {
         return true;
       }
-    });
+    }
+    else if (housingPriceElement.value === 'middle' ) {
+      if (el.offer.price >= PRICE.low && el.offer.price <= PRICE.middle) {
+        return true;
+      }
+    }
+    else if (housingPriceElement.value === 'high' ) {
+      if (el.offer.price >= PRICE.middle) {
+        return true;
+      }
+    }
+    else if (housingPriceElement.value === 'any') {
+      return true;
+    }
+  });
+  return filtered;
+};
+
+const filterByRooms = (data) => {
+  const filtered = data.filter((el) => {
+    if (el.offer.rooms === Number(housingRoomsElement.value) || housingRoomsElement.value === 'any') {
+      return true;
+    }
+  });
+  return filtered;
+};
+
+const filterByGuests = (data) => {
+  const filtered = data.filter((el) => {
+    if (el.offer.guests === Number(housingGuestsElement.value) || housingGuestsElement.value === 'any') {
+      return true;
+    }
+  });
+  return filtered;
+};
+
+const filterMap = (array) => {
+  mapFiltersElement.addEventListener('change', () => {
+    const newArray = filterByType(filterByPrice(filterByRooms(filterByGuests(array))));
     markerGroup.clearLayers();
     renderMarks(newArray.slice(0, MARKS_COUNT));
-    renderOffers(newArray);
-    renderMarks(newArray);
   });
 };
-export { mapFiltering };
+
+export { filterMap };

@@ -1,5 +1,5 @@
 import { setActiveState, updateAddressValue } from './forms.js';
-import { newFragment } from './generation.js';
+import { createOfferElement } from './create-element.js';
 
 const map = L.map('map-canvas');
 
@@ -57,7 +57,7 @@ const resetMap = () => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const createMarker = (offer, index) => {
+const createMarker = (offer) => {
   const minorMarker = L.marker({
     lat: offer.location.lat,
     lng: offer.location.lng
@@ -65,7 +65,7 @@ const createMarker = (offer, index) => {
   {
     icon: minorIcon
   });
-  minorMarker.addTo(markerGroup).bindPopup(newFragment[index]);
+  minorMarker.addTo(markerGroup).bindPopup(createOfferElement(offer));
 };
 const renderMarks = (offers) => {
   offers.forEach((offer, index) => {
