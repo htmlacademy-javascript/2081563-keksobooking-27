@@ -6,6 +6,7 @@ const housingPriceElement = document.querySelector('[name = "housing-price"]');
 const housingRoomsElement = document.querySelector('[name = "housing-rooms"]');
 const housingGuestsElement = document.querySelector('[name = "housing-guests"]');
 const mapFiltersElement = document.querySelector('.map__filters');
+const featuresElements = document.querySelectorAll('.map__checkbox');
 
 const filterByType = (data) => {
   const filtered = data.filter((el) => {
@@ -23,12 +24,12 @@ const filterByPrice = (data) => {
         return true;
       }
     }
-    else if (housingPriceElement.value === 'middle' ) {
+    else if (housingPriceElement.value === 'middle') {
       if (el.offer.price >= PRICE.low && el.offer.price <= PRICE.middle) {
         return true;
       }
     }
-    else if (housingPriceElement.value === 'high' ) {
+    else if (housingPriceElement.value === 'high') {
       if (el.offer.price >= PRICE.middle) {
         return true;
       }
@@ -58,12 +59,30 @@ const filterByGuests = (data) => {
   return filtered;
 };
 
+const filterFeatures = (data) => {
+  const selectedFeatures = [];
+  featuresElements.forEach((el) => {
+    if (el.checked) {
+      selectedFeatures.push(el.value);
+    }
+  });
+  const filtered = data.filter((el) => {
+    if (el.offer.features) {
+      if (el.offer.features.every((feature) => feature.includes(selectedFeatures))) {
+        return true;
+      }
+    }
+  });
+  return filtered;
+};
+
 const filterMap = (array) => {
   mapFiltersElement.addEventListener('change', () => {
-    const newArray = filterByType(filterByPrice(filterByRooms(filterByGuests(array))));
+    const newArray = filterByType(filterByPrice(filterByRooms(filterByGuests(filterFeatures(array)))));
     markerGroup.clearLayers();
     renderMarks(newArray.slice(0, MARKS_COUNT));
   });
 };
+
 
 export { filterMap };
