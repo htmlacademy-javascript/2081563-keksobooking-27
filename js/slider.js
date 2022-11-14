@@ -1,4 +1,4 @@
-import { getInputValue, onChangeTypeElement, onChangePriceElement } from './validation.js';
+import { getInputValue, onChangeTypeElement, onChangePriceElement, pristine } from './validation.js';
 
 const sliderElement = document.querySelector('.ad-form__slider');
 const resetSlider = () => {
@@ -26,6 +26,7 @@ noUiSlider.create(sliderElement, {
 
 sliderElement.noUiSlider.on('update', () => {
   getInputValue(sliderElement);
+  pristine.validate();
 });
 
 onChangeTypeElement(sliderElement);
