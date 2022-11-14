@@ -1,6 +1,6 @@
 const LINK_GET = 'https://27.javascript.pages.academy/keksobooking/data';
 const LINK_POST = 'https://27.javascript.pages.academy/keksobooking';
-
+const MARKS_COUNT = 10;
 const ROOM_OPTIONS = {
   '1': ['1'],
   '2': ['2', '1'],
@@ -24,4 +24,9 @@ const TYPE_ROOMS = {
   hotel: 'Отель'
 };
 
-export {LINK_GET, LINK_POST, ROOM_OPTIONS, MIN_PRICE, TYPE_ROOMS};
+const PRICE = {
+  low: 10000,
+  middle: 50000
+};
+
+export {LINK_GET, LINK_POST, ROOM_OPTIONS, MIN_PRICE, TYPE_ROOMS, MARKS_COUNT, PRICE};
