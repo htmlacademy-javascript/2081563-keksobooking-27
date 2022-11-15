@@ -4,6 +4,7 @@ import { showAlertMessage } from './messages.js';
 import { attachFormListeners, setInactiveState } from './forms.js';
 import { MARKS_COUNT } from './const.js';
 import {filterOffers} from './filter.js';
+import './send-image.js';
 
 attachFormListeners();
 getData()
