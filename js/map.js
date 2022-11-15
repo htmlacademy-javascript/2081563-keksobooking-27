@@ -1,6 +1,7 @@
 import { setActiveState, updateAddressValue } from './forms.js';
 import { createOfferElement } from './create-element.js';
 
+
 const map = L.map('map-canvas');
 
 L.tileLayer(

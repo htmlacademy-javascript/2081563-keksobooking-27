@@ -11,6 +11,7 @@ const mapFilterElement = document.querySelector('.map__filters');
 const mapFilterElements = mapFilterElement.querySelectorAll('.map__filter');
 const addressElement = document.querySelector('[name = "address"]');
 const resetButtonElement = document.querySelector('.ad-form__reset');
+const mapFiltersElement = document.querySelector('.map__filters');
 
 const updateAddressValue = (marker) => {
   addressElement.value = `lat: ${marker.getLatLng().lat.toFixed(5)}, lng: ${marker.getLatLng().lng.toFixed(5)}`;
@@ -47,6 +48,7 @@ const resetFormValue = () => {
   resetMap();
   resetSlider();
   closePopup();
+  mapFiltersElement.reset();
 };
 
 const attachFormListeners = () => {
