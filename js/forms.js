@@ -3,7 +3,8 @@ import { pristine } from './validation.js';
 import { resetMap, closePopup } from './map.js';
 import { showSuccesMessage, showErrorMessage } from './messages.js';
 import { resetSlider, toogleDisabledState } from './slider.js';
-import { onChangeImage } from './send-image.js';
+import { previewImage } from './preview-image.js';
+import { clearAvatar, clearPhoto } from './preview-image.js';
 
 const adFormElement = document.querySelector('.ad-form');
 const adFormElements = adFormElement.querySelectorAll('.ad-form__element');
@@ -30,7 +31,7 @@ const setInactiveState = () => {
 };
 
 const setActiveState = () => {
-  onChangeImage();
+  previewImage();
   adFormElement.classList.remove('ad-form--disabled');
   mapFilterElement.classList.remove('map__filters--disabled');
   addressElement.readOnly = true;
@@ -49,6 +50,8 @@ const resetFormValue = () => {
   resetSlider();
   closePopup();
   mapFiltersElement.reset();
+  clearAvatar();
+  clearPhoto();
 };
 
 const attachFormListeners = () => {

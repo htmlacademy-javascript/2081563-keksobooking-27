@@ -9,7 +9,15 @@ imageElement.style.width = '70px';
 imageElement.style.height = '70px';
 imageElement.style.backgroundColor = 'transparent';
 
-const onChangeImage = () => {
+const clearAvatar = () => {
+  avatarPreviewElement.src = 'img/muffin-grey.svg';
+};
+
+const clearPhoto = () => {
+  imageElement.remove();
+};
+
+const previewImage = () => {
   avatarUploadElement.addEventListener('change', () => {
     const file = avatarUploadElement.files[0];
     if (file) {
@@ -37,4 +45,4 @@ const onChangeImage = () => {
   });
 };
 
-export {onChangeImage};
+export {previewImage, clearAvatar, clearPhoto};
