@@ -73,4 +73,8 @@ const renderMarks = (offers) => {
   });
 };
 
-export {renderMarks, resetMap, markerGroup};
+const closePopup = () => {
+  map.closePopup();
+};
+
+export {renderMarks, resetMap, markerGroup, closePopup};

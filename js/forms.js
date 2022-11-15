@@ -1,6 +1,6 @@
 import { sendData } from './api.js';
 import { pristine } from './validation.js';
-import { resetMap } from './map.js';
+import { resetMap, closePopup } from './map.js';
 import { showSuccesMessage, showErrorMessage } from './messages.js';
 import { resetSlider, toogleDisabledState } from './slider.js';
 import { onChangeImage } from './send-image.js';
@@ -46,6 +46,7 @@ const resetFormValue = () => {
   adFormElement.reset();
   resetMap();
   resetSlider();
+  closePopup();
 };
 
 const attachFormListeners = () => {
