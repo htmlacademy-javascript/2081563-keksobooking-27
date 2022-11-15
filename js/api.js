@@ -1,5 +1,6 @@
 import {LINK_GET, LINK_POST} from './const.js';
 
+
 function getData() {
   return fetch(LINK_GET)
     .then((response) => {
