@@ -1,4 +1,4 @@
-import { setActiveState, updateAddressValue } from './forms.js';
+import { updateAddressValue } from './forms.js';
 import { createOfferElement } from './create-element.js';
 
 
@@ -32,14 +32,15 @@ const mainMarker = L.marker({
 });
 mainMarker.addTo(map);
 
-map.on('load', () => {
-  setActiveState();
+const setOnMapLoad = (cb) => {
+  map.on('load', cb());
   updateAddressValue(mainMarker);
-})
-  .setView({
-    lat: 35.682567,
-    lng: 139.751143,
-  }, 13);
+};
+
+map.setView({
+  lat: 35.682567,
+  lng: 139.751143,
+}, 13);
 mainMarker.on('moveend', () => {
   updateAddressValue(mainMarker);
 });
@@ -78,4 +79,4 @@ const closePopup = () => {
   map.closePopup();
 };
 
-export {renderMarks, resetMap, markerGroup, closePopup};
+export { renderMarks, resetMap, markerGroup, closePopup, setOnMapLoad };
