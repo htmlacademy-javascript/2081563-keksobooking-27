@@ -1,6 +1,7 @@
-import { sendData } from './api.js';
+import { MARKS_COUNT } from './const.js';
+import { sendData, getData } from './api.js';
 import { pristine } from './validation.js';
-import { resetMap, closePopup } from './map.js';
+import { resetMap, closePopup, renderMarks, markerGroup } from './map.js';
 import { showSuccesMessage, showErrorMessage } from './messages.js';
 import { resetSlider, toogleDisabledState } from './slider.js';
 import { previewImage } from './preview-image.js';
@@ -15,6 +16,11 @@ const resetButtonElement = document.querySelector('.ad-form__reset');
 const mapFiltersElement = document.querySelector('.map__filters');
 const housingFeaturesElement = document.querySelector('.map__features');
 const avatarInputElement = document.querySelector('.ad-form-header__input');
+
+const resetMarkers = () => {
+  markerGroup.clearLayers();
+  getData().then((data) => renderMarks(data.slice(0, MARKS_COUNT)));
+};
 
 const updateAddressValue = (marker) => {
   addressElement.value = `lat: ${marker.getLatLng().lat.toFixed(5)}, lng: ${marker.getLatLng().lng.toFixed(5)}`;
@@ -58,6 +64,7 @@ const resetFormValue = () => {
   mapFiltersElement.reset();
   clearAvatar();
   clearPhoto();
+  resetMarkers();
 };
 
 const attachFormListeners = () => {
