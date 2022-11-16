@@ -1,6 +1,7 @@
 import { setActiveState, updateAddressValue } from './forms.js';
 import { createOfferElement } from './create-element.js';
 
+
 const map = L.map('map-canvas');
 
 L.tileLayer(
@@ -73,4 +74,8 @@ const renderMarks = (offers) => {
   });
 };
 
-export {renderMarks, resetMap, markerGroup};
+const closePopup = () => {
+  map.closePopup();
+};
+
+export {renderMarks, resetMap, markerGroup, closePopup};

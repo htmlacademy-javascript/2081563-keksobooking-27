@@ -1,8 +1,10 @@
 import { sendData } from './api.js';
 import { pristine } from './validation.js';
-import { resetMap } from './map.js';
+import { resetMap, closePopup } from './map.js';
 import { showSuccesMessage, showErrorMessage } from './messages.js';
 import { resetSlider, toogleDisabledState } from './slider.js';
+import { previewImage } from './preview-image.js';
+import { clearAvatar, clearPhoto } from './preview-image.js';
 
 const adFormElement = document.querySelector('.ad-form');
 const adFormElements = adFormElement.querySelectorAll('.ad-form__element');
@@ -10,6 +12,7 @@ const mapFilterElement = document.querySelector('.map__filters');
 const mapFilterElements = mapFilterElement.querySelectorAll('.map__filter');
 const addressElement = document.querySelector('[name = "address"]');
 const resetButtonElement = document.querySelector('.ad-form__reset');
+const mapFiltersElement = document.querySelector('.map__filters');
 
 const updateAddressValue = (marker) => {
   addressElement.value = `lat: ${marker.getLatLng().lat.toFixed(5)}, lng: ${marker.getLatLng().lng.toFixed(5)}`;
@@ -28,6 +31,7 @@ const setInactiveState = () => {
 };
 
 const setActiveState = () => {
+  previewImage();
   adFormElement.classList.remove('ad-form--disabled');
   mapFilterElement.classList.remove('map__filters--disabled');
   addressElement.readOnly = true;
@@ -44,6 +48,10 @@ const resetFormValue = () => {
   adFormElement.reset();
   resetMap();
   resetSlider();
+  closePopup();
+  mapFiltersElement.reset();
+  clearAvatar();
+  clearPhoto();
 };
 
 const attachFormListeners = () => {
