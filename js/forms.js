@@ -1,8 +1,9 @@
-import { sendData } from './api.js';
+import { MARKS_COUNT } from './const.js';
+import { sendData, getData } from './api.js';
 import { pristine } from './validation.js';
-import { resetMap, closePopup } from './map.js';
-import { showSuccesMessage, showErrorMessage } from './messages.js';
-import { resetSlider, toogleDisabledState } from './slider.js';
+import { resetMap, closePopup, renderMarks, markerGroup } from './map.js';
+import { showSuccessMessage, showErrorMessage } from './messages.js';
+import { resetSlider, toggleDisabledState } from './slider.js';
 import { previewImage } from './preview-image.js';
 import { clearAvatar, clearPhoto } from './preview-image.js';
 
@@ -13,6 +14,13 @@ const mapFilterElements = mapFilterElement.querySelectorAll('.map__filter');
 const addressElement = document.querySelector('[name = "address"]');
 const resetButtonElement = document.querySelector('.ad-form__reset');
 const mapFiltersElement = document.querySelector('.map__filters');
+const housingFeaturesElement = document.querySelector('.map__features');
+const avatarInputElement = document.querySelector('.ad-form-header__input');
+
+const resetMarkers = () => {
+  markerGroup.clearLayers();
+  getData().then((data) => renderMarks(data.slice(0, MARKS_COUNT)));
+};
 
 const updateAddressValue = (marker) => {
   addressElement.value = `lat: ${marker.getLatLng().lat.toFixed(5)}, lng: ${marker.getLatLng().lng.toFixed(5)}`;
@@ -27,7 +35,9 @@ const setInactiveState = () => {
   for (const mapFilter of mapFilterElements) {
     mapFilter.disabled = true;
   }
-  toogleDisabledState(true);
+  toggleDisabledState(true);
+  housingFeaturesElement.disabled = true;
+  avatarInputElement.disabled = true;
 };
 
 const setActiveState = () => {
@@ -41,7 +51,9 @@ const setActiveState = () => {
   for (const mapFilter of mapFilterElements) {
     mapFilter.disabled = false;
   }
-  toogleDisabledState(false);
+  toggleDisabledState(false);
+  housingFeaturesElement.disabled = false;
+  avatarInputElement.disabled = false;
 };
 
 const resetFormValue = () => {
@@ -52,6 +64,7 @@ const resetFormValue = () => {
   mapFiltersElement.reset();
   clearAvatar();
   clearPhoto();
+  resetMarkers();
 };
 
 const attachFormListeners = () => {
@@ -64,7 +77,7 @@ const attachFormListeners = () => {
         .then((response) => {
           if (response.ok) {
             resetFormValue();
-            showSuccesMessage();
+            showSuccessMessage();
           }
           else {
             throw new Error('Ошибка оптравки данных');

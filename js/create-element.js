@@ -1,4 +1,4 @@
-import { TYPE_ROOMS } from './const.js';
+import { RoomType } from './const.js';
 
 const popupElement = document.querySelector('#card').content.querySelector('.popup');
 
@@ -26,7 +26,7 @@ const createOfferElement = ({ author, offer }) => {
     removeElement('.popup__text--price');
   }
   if (offer.type) {
-    copyPopupElement.querySelector('.popup__type').textContent = TYPE_ROOMS[offer.type];
+    copyPopupElement.querySelector('.popup__type').textContent = RoomType[offer.type.toUpperCase()];
   }
   else {
     removeElement('.popup__type');

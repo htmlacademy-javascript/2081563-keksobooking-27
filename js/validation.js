@@ -1,4 +1,4 @@
-import { ROOM_OPTIONS, MIN_PRICE } from './const.js';
+import { RoomOptions, MinPrice } from './const.js';
 
 const adFormElement = document.querySelector('.ad-form');
 const roomNumberElement = adFormElement.querySelector('[name = "rooms"]');
@@ -8,10 +8,9 @@ const capacityElement = adFormElement.querySelector('[name = "capacity"]');
 const timeOutElement = adFormElement.querySelector('[name = "timeout"]');
 const timeInElement = adFormElement.querySelector('[name = "timein"]');
 const getInputValue = (slider) => {
-  if (slider)
-  {priceElement.value = Math.round(slider.noUiSlider.get());}
+  if (slider) { priceElement.value = Math.round(slider.noUiSlider.get()); }
   else {
-    return MIN_PRICE[typeElement.value];
+    return MinPrice[typeElement.value.toUpperCase()];
   }
 };
 
@@ -21,7 +20,7 @@ const pristine = new Pristine(adFormElement, {
   errorTextClass: 'ad-form__element--invalid'
 });
 function validateRoomNumber() {
-  return ROOM_OPTIONS[roomNumberElement.value].includes(capacityElement.value);
+  return RoomOptions[roomNumberElement.value].includes(capacityElement.value);
 }
 function getErrorMessage() {
   if (capacityElement.value === '0') {
@@ -47,17 +46,12 @@ function validateOnChange(form, form2) {
 validateOnChange(roomNumberElement, capacityElement);
 
 function validatePrice(value) {
-  return value >= MIN_PRICE[typeElement.value];
+  return value >= MinPrice[typeElement.value.toUpperCase()];
 }
 function getPriceErrorMessage() {
-  return `Минимальная цена ${MIN_PRICE[typeElement.value]}руб.`;
+  return `Минимальная цена ${MinPrice[typeElement.value.toUpperCase()]}руб.`;
 }
 pristine.addValidator(priceElement, validatePrice, getPriceErrorMessage);
-typeElement.addEventListener('change', () => {
-  priceElement.placeholder = MIN_PRICE[typeElement.value];
-  priceElement.min = MIN_PRICE[typeElement.value];
-  pristine.validate(priceElement);
-});
 
 timeInElement.addEventListener('change', () => {
   timeOutElement.value = timeInElement.value;
@@ -68,10 +62,13 @@ timeOutElement.addEventListener('change', () => {
 
 const onChangeTypeElement = (element) => {
   typeElement.addEventListener('change', () => {
+    priceElement.placeholder = MinPrice[typeElement.value.toUpperCase()];
+    priceElement.min = MinPrice[typeElement.value.toUpperCase()];
+    pristine.validate(priceElement);
     element.noUiSlider.updateOptions({
-      start: getInputValue(),
+      start: +priceElement.min,
       range: {
-        min: getInputValue(),
+        min: +priceElement.min,
         max: 100000
       }
     });
