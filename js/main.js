@@ -19,6 +19,5 @@ setOnMapLoad(() => {
     })
     .catch((error) => {
       showAlertMessage(error.message);
-      setInactiveState();
     });
 });
