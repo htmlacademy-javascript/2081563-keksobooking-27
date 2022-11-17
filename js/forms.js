@@ -40,20 +40,23 @@ const setInactiveState = () => {
   avatarInputElement.disabled = true;
 };
 
-const setActiveState = () => {
+const setActiveForm = () => {
   previewImage();
   adFormElement.classList.remove('ad-form--disabled');
-  mapFilterElement.classList.remove('map__filters--disabled');
   addressElement.readOnly = true;
   for (const formElement of adFormElements) {
     formElement.disabled = false;
   }
-  for (const mapFilter of mapFilterElements) {
-    mapFilter.disabled = false;
-  }
   toggleDisabledState(false);
   housingFeaturesElement.disabled = false;
   avatarInputElement.disabled = false;
+};
+
+const setActiveFilters = () => {
+  mapFilterElement.classList.remove('map__filters--disabled');
+  for (const mapFilter of mapFilterElements) {
+    mapFilter.disabled = false;
+  }
 };
 
 const resetFormValue = () => {
@@ -93,4 +96,4 @@ const attachFormListeners = () => {
   });
 };
 
-export { setActiveState, setInactiveState, attachFormListeners, updateAddressValue };
+export { setInactiveState, attachFormListeners, updateAddressValue, setActiveForm, setActiveFilters };
