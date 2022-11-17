@@ -2,8 +2,8 @@ import { MARKS_COUNT } from './const.js';
 import { sendData, getData } from './api.js';
 import { pristine } from './validation.js';
 import { resetMap, closePopup, renderMarks, markerGroup } from './map.js';
-import { showSuccesMessage, showErrorMessage } from './messages.js';
-import { resetSlider, toogleDisabledState } from './slider.js';
+import { showSuccessMessage, showErrorMessage } from './messages.js';
+import { resetSlider, toggleDisabledState } from './slider.js';
 import { previewImage } from './preview-image.js';
 import { clearAvatar, clearPhoto } from './preview-image.js';
 
@@ -35,7 +35,7 @@ const setInactiveState = () => {
   for (const mapFilter of mapFilterElements) {
     mapFilter.disabled = true;
   }
-  toogleDisabledState(true);
+  toggleDisabledState(true);
   housingFeaturesElement.disabled = true;
   avatarInputElement.disabled = true;
 };
@@ -51,7 +51,7 @@ const setActiveState = () => {
   for (const mapFilter of mapFilterElements) {
     mapFilter.disabled = false;
   }
-  toogleDisabledState(false);
+  toggleDisabledState(false);
   housingFeaturesElement.disabled = false;
   avatarInputElement.disabled = false;
 };
@@ -77,7 +77,7 @@ const attachFormListeners = () => {
         .then((response) => {
           if (response.ok) {
             resetFormValue();
-            showSuccesMessage();
+            showSuccessMessage();
           }
           else {
             throw new Error('Ошибка оптравки данных');

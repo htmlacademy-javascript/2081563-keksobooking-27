@@ -51,7 +51,7 @@ const onClick = () => {
   hiddenSuccesMessage();
 };
 
-const showSuccesMessage = () => {
+const showSuccessMessage = () => {
   document.body.append(copySuccessElement);
   document.addEventListener('keydown', onEscDown);
   document.addEventListener('click', onClick);
@@ -63,4 +63,4 @@ function hiddenSuccesMessage() {
   document.removeEventListener('click', onClick);
 }
 
-export {showAlertMessage, showErrorMessage, showSuccesMessage};
+export {showAlertMessage, showErrorMessage, showSuccessMessage};

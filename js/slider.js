@@ -5,7 +5,7 @@ const resetSlider = () => {
   sliderElement.noUiSlider.set(getInputValue());
 };
 
-const toogleDisabledState = (disabled) => {
+const toggleDisabledState = (disabled) => {
   if (disabled) {
     return sliderElement.setAttribute('disabled', true);
   }
@@ -24,7 +24,7 @@ noUiSlider.create(sliderElement, {
   step: 0
 });
 
-sliderElement.noUiSlider.on('update', () => {
+sliderElement.noUiSlider.on('slide', () => {
   getInputValue(sliderElement);
   pristine.validate();
 });
@@ -33,4 +33,4 @@ onChangeTypeElement(sliderElement);
 
 onChangePriceElement(sliderElement);
 
-export { resetSlider, toogleDisabledState };
+export { resetSlider, toggleDisabledState};
